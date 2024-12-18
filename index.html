@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bank P2P Processing</title>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        body {
+            margin: 0; 
+            padding: 0; 
+            font-family: Arial, sans-serif; 
+            color: #fff;
+            background: #000; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        /* Добавляем фон-картинку и градиенты */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background:
+                url('images/123.webp') no-repeat center center/cover,
+                radial-gradient(circle at 30% 50%, #001f3f 0%, #000 80%) no-repeat,
+                linear-gradient(135deg, rgba(0,255,255,0.05) 0%, rgba(0,0,0,0.3) 70%) no-repeat;
+            z-index: -3;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                linear-gradient(rgba(0,255,255,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,255,0.15) 1px, transparent 1px);
+            background-size: 50px 50px; 
+            z-index: -2;
+            opacity: 0.07;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100px 100px, 100px 100px; }
+        }
+
+        h1, h2, h3, h4, h5, h6, p, li, a {
+            text-shadow: 0 0 5px rgba(0,255,255,0.5);
+        }
+
+        a {
+            color: #00ffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0088ff;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff;
+            animation: rotate-ring 20s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.4;
+        }
+
+        @keyframes rotate-ring {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #00ffff, #0088ff);
+            box-shadow: 0 0 15px #00ffff;
+            color: #fff;
+            font-weight: bold;
+            transition: transform 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(17,17,17,0.8);
+            box-shadow: 0 0 20px #00ffff;
+            border-radius: 10px;
+        }
+
+        section h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+        }
+
+        section p, section li {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        section ul, section ol {
+            margin-left: 2rem;
+        }
+
+        .icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .icon {
+            text-align: center;
+            max-width: 250px;
+        }
+
+        .icon svg {
+            margin-bottom: 1rem;
+            fill: none;
+            stroke: #00FFFF;
+            stroke-width: 2;
+            width: 60px;
+            height: 60px;
+        }
+
+        .final-section {
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #000;
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .icons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero sr-target">
+        <h1>Bank P2P Processing</h1>
+        <h2>Добро пожаловать!</h2>
+        <p><strong>Открываем перед вами мир, где процессинг превращается в искусство, а криптоарбитраж становится захватывающей стратегией для стабильного дохода.</strong></p>
+        <p>Мы используем уникальные подходы, комбинируя логику бирж, мощь криптобанков и автоматизированные решения, чтобы создавать возможности, которые раньше казались недостижимыми. Это не просто схема — это игра, где вы управляете динамикой рынка.</p>
+        <a href="#join" class="cta-button">Подключиться</a>
+    </header>
+
+    <main>
+        <section class="content-section sr-target">
+            <h2>Как всё устроено</h2>
+            <p>Мы работаем с тремя ключевыми элементами:</p>
+            <ol>
+                <li><strong>Криптобанк:</strong> Это сердце системы. Здесь хранятся активы, необходимые для работы с клиентами. Криптобанк обязан держать резервы на определённом уровне — всегда готовым к любым запросам.</li>
+                <li><strong>Биржи:</strong> Децентрализованные (DEX) и централизованные (CEX) биржи — это площадки, где активы покупаются и продаются. Каждая биржа живёт по своим правилам, но мы знаем, как использовать их в нашу пользу.</li>
+                <li><strong>Роботы:</strong> Их задача — следить за балансом резервов и вовремя восполнять недостающие активы. Они работают по строгим алгоритмам, и именно их шаблонность мы превращаем в своё преимущество.</li>
+            </ol>
+        </section>
+
+        <section class="content-section sr-target">
+            <h2>Магия начинается здесь</h2>
+            <p>Представьте: есть актив, который одновременно нужен и криптобанкам, и биржам. Его количество падает ниже определённого уровня — и тогда начинается движение. Мы вмешиваемся, создаём искусственный дефицит и заставляем системы работать на нас.</p>
+            <ol>
+                <li><strong>Начало игры:</strong> Используем тактику «удар котлетой» — серию покупок и продаж, создавая искусственный дефицит актива и провоцируя рост цены.</li>
+                <li><strong>Работа флеш-кредитов:</strong> Подключаем флеш-кредиты — временные заимствования, усиливающие эффект и создающие яркий всплеск цен.</li>
+                <li><strong>Финальный аккорд:</strong> Когда цена взлетает, начинаем продавать актив с прибылью. Динамика рынка работает на нас, а алгоритмы обеспечивают точность действий.</li>
+            </ol>
+        </section>
+
+        <section class="content-section sr-target">
+            <h2>Почему это работает?</h2>
+            <p>Мы не ломаем систему, мы играем с ней. Роботы криптобанков и бирж настроены на автоматическое восполнение дефицита. Их цель — поддерживать стабильность, они следуют алгоритмам без вопросов.</p>
+            <p>Но там, где роботы видят числа, мы видим возможности. Мы создаём небольшой локальный хаос, который они пытаются исправить, и в этом хаосе рождается наша прибыль.</p>
+        </section>
+
+        <section class="content-section sr-target">
+            <h2>Кто выигрывает?</h2>
+            <ul>
+                <li>Вы получаете стабильный доход, наблюдая за работой системы.</li>
+                <li>Биржи и криптобанки продолжают свою работу, не замечая нашего вмешательства.</li>
+                <li>Мы обеспечиваем прозрачность, надёжность и постоянный поток возможностей.</li>
+            </ul>
+        </section>
+
+        <section class="content-section sr-target" id="join">
+            <h2>Как присоединиться?</h2>
+            <p>Мы сделали всё, чтобы ваш путь был лёгким:</p>
+            <ul>
+                <li><a href="https://t.me/YourBestTradeBot?start=550921886" target="_blank">Подключитесь к нашему Telegram-боту</a> и начните с нами уже сегодня.</li>
+                <li><a href="https://t.me/+ndpQMru2QJNlNWFk" target="_blank">Вступите в наш чат</a> — обсуждайте идеи, делитесь опытом, находите ответы.</li>
+                <li><a href="https://t.me/ArbiTradeOficcial/4732" target="_blank">Следите за новостями в канале</a> — будьте в курсе событий и обновлений.</li>
+                <li><a href="https://youtu.be/9qrioP1U6sE" target="_blank">Смотрите наши видео</a> — мы всё объясним, покажем и вдохновим на первые шаги.</li>
+            </ul>
+        </section>
+
+        <section class="final-section content-section sr-target">
+            <h2>Это не просто система — это игра, где вы выигрываете</h2>
+            <p>Здесь нет лишних слов или пустых обещаний. Есть точный расчёт, умелая работа с динамикой рынка и ваша прибыль. Вы не просто наблюдаете — вы становитесь частью экосистемы, где каждая деталь имеет значение.</p>
+            <p>Присоединяйтесь и почувствуйте, как работает эта магия. Ведь всё гениальное — просто, когда за дело берутся профессионалы.</p>
+            <a href="https://t.me/YourBestTradeBot?start=550921886" class="cta-button" target="_blank">Присоединиться</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Bank P2P Processing. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Инициализация анимаций при скролле
+        if (typeof ScrollReveal !== 'undefined') {
+            ScrollReveal().reveal('.sr-target', {
+                duration: 1000,
+                easing: 'ease-in-out',
+                distance: '50px',
+                origin: 'bottom',
+                interval: 200
+            });
+        } else {
+            console.warn('ScrollReveal не подключен, элементы не будут анимированы.');
+        }
+    </script>
+</body>
+</html>
